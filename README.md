@@ -28,9 +28,9 @@ touch .env
 Initialize the .env file with the following lines:
 
 
-DATABASE_URL=<local address of the database>
+DATABASE_URL=< local address of the database >
 
-SECRET_KEY=<32-character hexadecimal secret key>
+SECRET_KEY=< 32-character hexadecimal secret key >
 
 
 where the actual variables are inside tags. 
