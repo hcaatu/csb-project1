@@ -1,70 +1,60 @@
-# Ravintolasovellus
+# Cyber Security Base Project 1
 
-Tämän repositorion sovellus toimii Helsingin Yliopiston Tietokannat ja Web-ohjelmointi -kurssin harjoitustyönä.
+This repository consists of a vulnerable messaging application with five different cyber security flaws. I opted to use flask when creating the app, since I have much better knowledge over that than Django that was used in the course material.
 
-Sovellus on yksinkertainen tietokantasovellus PostgreSQL:n avulla, jossa voi arvostella ja lukea lähialeen kuppiloiden tuotteita ja palvelua. 
+The application run locally with a local database, so no actual data is leaked online because of the security flaws.
 
-Tarkoituksena on luoda ominaisuuksia, kuten
-- sisäänkirjautuminen ja omien tietojen tarkastelu
-- ravintolan tietojen tarkastelu
-- arvion antaminen tietylle ravintolalle
-- lista- tai karttanäkymä kuppiloista
+### Install instructions
 
-## Loppupalautus:
-- sovellukseen voi lisätä uusia ravintoloita
-- sovellukseen voi luoda uusia käyttäjiä
-- käyttäjät voivat jättää arvioita ravintoloihin
-- käyttäjät voivat poistaa arvionsa
-- arvioita voi etsiä hakusanalla, joka hakee sekä sisäälön että ravintolan nimen perusteella
-- ravintolat näkyvät listalla, ja ravintolaa tarkastellessa myös kartalla
-- käyttäjiä voi kirjautumisen jälkeen hakea hakusanalla, ja lähettää ystäväpyynnön
-
-Ystävätoimintojen kohdalla olin kuitenkin liian kunnianhimoinen, enkä saanut kaikkia haluamani toimintoja valmiiksi loppupalautukseen mennessä. Sovelluksessa on virhe, jonka takia ystäväpyynnön hyväksyminen ei onnistu.
-
-Sovelluksen saa käynnistettyä paikallisesti.
-
-### Asennusohje
-
-1. Kloonaa repositorio paikalliselle koneelle:
+1. In the terminal, clone the repository locally:
 ```bash
-git clone
+git clone https://github.com/hcaatu/csb-project1
 ```
 
-2. Hakemistoon voi siirtyä komennolla:
+2. Move to correct directory:
 ```bash
-cd ravintolasovellus
+cd csb-project1
 ```
 
-3. Luo kansioon .env tiedosto
+3. Installing PostgresSQL:
+- on Linux use [this installation script](https://github.com/hy-tsoha/local-pg)
+- on Windows download the installation package directly from the [Postgres website](https://www.postgresql.org/download/)
+- on Mac the easiest way is to use [Postgres.app](https://postgresapp.com/)
+
+4. Create a new .env file
 ```bash
 touch .env
 ```
-Tiedostoon tulee kirjoittaa seuraaat rivit:
+Initialize the .env file with the following lines:
 
 
-DATABASE_URL=*tietokannan-paikallinen-osoite*
+DATABASE_URL=<local address of the database>
 
-SECRET_KEY=*salainen-avain*
+SECRET_KEY=<32-character hexadecimal secret key>
 
 
-johon vaihdetaan oikeat muuttujat paikalle. Salaisen avaimen saa luotua esimerkiksi juurihakemistossa komennolla:
+where the actual variables are inside tags. 
+
+If Postgres was installed using the Linux script, use postgresql+psycopg2:// as the local address. Otherwise, use postgresql:///user where 'user' is the name of the database that shows up when opening the PostgreSQL interpreter.
+
+The secret key is easily created in the root directory with the following command:
 ```bash
 python3 secret.py
 ```
 
-4. Aktivoidaan virtuaaliympäristö ja asennetaan sovelluksen riippuvuudet seuraavilla komennoilla:
+5. Activate a virtual environment and install the requirements using these commands:
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-5. Määritetään vielä sovelluksen tietokannan skeema komennolla:
+6. Define the database schema with the following command:
 ```bash
 psql < schema.sql
 ```
 
-6. Nyt sovelluksen voi käynnistää komennolla
+7. Now the application starts at localhost:5000 by using this command:
 ```bash
 flask run
 ```
