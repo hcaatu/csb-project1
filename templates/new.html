@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block title %}Message App{% endblock %}
+
+{% block content %}
+
+<form id="create-new" action="/create" method="POST">
+    <label for=content>Type the message here:</label>
+    <input type="text" name="content" placeholder="message" required>
+    <input type="submit" value="Send">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</form>
+
+<div class="back">
+    <a href="/">Go back</a>
+</div>
+{% endblock %}

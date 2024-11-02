@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}Message App{% endblock %}
+
+{% block content %}
+<div>
+    <h2>
+        {{ name }}
+    </h2>
+    <h3>
+        Location: {{ location }}
+    </h3>
+</div>
+
+{% if session.username %}
+    <a href="/restaurant/{{ id }}/review">Write a new review</a> <br>
+{% else %}
+    In order to submit a review, please log in<br>
+{% endif %}
+<div>
+    <hr>
+    {% for review in reviews %}
+    {% if review.visible %}
+        {{ review.content }}<br>
+        <br>
+        Reviewer: {{ review.sent_by }}<br>
+        Sent at: {{ review.sent_at.strftime("%Y-%m-%d %H:%M:%S") }}<br>
+        <hr>
+    {% endif %}
+    {% endfor %}
+</div>
+<a href="/">Go back</a>
+{% endblock %}

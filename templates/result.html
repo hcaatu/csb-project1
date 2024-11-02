@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block title %}Message App{% endblock %}
+
+{% block content %}
+<div>
+    {% if messages %}
+        {% for message in messages %}
+                {{message.content}}<br>
+                <br>
+                Sent by {{message.sent_by}} at {{message.created_at}}<br>
+                <br>
+        {% endfor %}
+    {% else %}
+        Query does not match any reviews.
+    {% endif %}
+</div>
+<br>
+<div class="search">
+    <form action="/result" method="GET">
+        Search messages: <input type="text" name="query">
+        <br>
+        <input type="submit" value="Search">
+    </form>
+</div>
+<br>
+<a href="/">Go back</a>
+{% endblock %}

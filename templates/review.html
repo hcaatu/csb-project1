@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block title %}Message App{% endblock %}
+
+{% block content %}
+<form action="/create_review/{{ id }}", method="POST", onsubmit="return check(this)">
+    <div>
+        {{ name }}
+    </div>
+    <div>
+        <label for="content">Write a review:</label>
+        <textarea name="content" required></textarea><br>
+    </div>
+    <input type="submit" value="Send review">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</form>
+<a href="/">Go back</a>
+
+<script>
+    function check(form) {
+        if (form.content.value.length > 5000) {
+            alert("The review sent is too long");
+            return false;
+        }
+        return true;
+    }
+</script>
+{% endblock %}

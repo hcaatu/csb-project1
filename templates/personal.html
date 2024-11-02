@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}Message App{% endblock %}
+
+{% block content %}
+
+<div>
+    {% if messages %}
+    <div class="message-list">
+        {% for message in messages %}
+        <ul>
+            <li>
+                {{ message.content }}
+                {{ message.created_at }}
+                <form id="delete-button" action="/delete_message/{{ message.id }}" method="POST">
+                    <input type="submit" value="Delete message">
+                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                </form>
+            </li>
+        </ul>
+        {% endfor %}
+    </div>
+    {% else %}
+        No messages sent.
+    {% endif %}
+</div> 
+
+<div>
+    <a href="/">Go back</a>
+</div>
+{% endblock %}

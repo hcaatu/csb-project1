@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fi">
+
+    <head>
+        <title>Message app - {% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+    </head>
+
+    <body>
+        <div class="header">
+            <h1>Message app</h1>
+        </div>
+
+        <div class="content">
+
+            <div id="login">
+                {% if session.username %}
+                <nav>
+                    
+                    <ul>
+                        <li>{{ session.username  }} logged in</li>
+                        <li><a href="/personal">My messages</a></li>
+                        <li><a href="/new">Add message</a></li>
+                        <li><a href="/logout">Log out</a></li>
+                    </ul>
+                </nav>  
+                
+                {% else %}
+                <form action="/login" method="POST">
+                    <label for="username">Username:</label>
+                    <input id="login" type="text" name="username" required>
+                    <label for="password">Password:</label>
+                    <input id="login" type="password" name="password" required>
+                    <input id="login-button" type="submit" value="Log in">
+                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                <br>
+                {% if session.invalid_user %}
+                <br>Invalid username or password<br>
+                {% endif %}
+                Not a user?<br>
+                <a href="/register">Register a new user</a>
+                {% endif %}
+                </form>
+            </div>
+
+            {% block content %}{% endblock %}
+
+        </div>
+    </body>
+
+</html>

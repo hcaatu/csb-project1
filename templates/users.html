@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}Message App{% endblock %}
+
+{% block content %}
+
+<div>
+    {% if users %}
+        {% for user in users %}
+            {{ user.username }}
+        {% endfor %}
+    {% else %}
+        Query does not match any users.
+    {% endif %}
+</div>
+
+<a href="/">Go back</a>
+{% endblock %}

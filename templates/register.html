@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block title %}Message App{% endblock %}
+
+{% block content %}
+
+<div>
+    {% if session.passwords_differ %}
+    Passwords differ from each other. Try again
+    {% elif session.username_in_use %}
+    Username is already taken. Try again
+    {% endif %}
+</div>
+
+<form class="box" action="/register" method="POST", onsubmit="return check(this)">
+    <div>
+        <label for="username">Username:</label><br>
+        <input type="text" name="username" required placeholder="Username"
+        oninvalid="this.setCustomValidity('Type the username here')"
+        oninput="this.setCustomValidity('')">
+    </div>
+    <div>
+        <label for="password">Password:</label><br>
+        <input type="password" name="password" required placeholder="Password"
+        oninvalid="this.setCustomValidity('Please type the password here')"
+        oninput="this.setCustomValidity('')">
+    </div>
+    <div>
+        <label for="password_again">Password again:</label><br>
+        <input type="password" name="password_again" required placeholder="Password again"
+        oninvalid="this.setCustomValidity('Please type the password again')"
+        oninput="this.setCustomValidity('')">
+    </div>
+    <input id="query-button" type="submit" value="Register">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</form>
+<a href="/">Go back</a>
+
+<script>
+    function check(form) {
+        if (form.password.value != form.password_again.value) {
+            alert("Passwords differ from each other. Try again");
+            return false;
+        }
+        return true;
+    }
+</script>
+{% endblock %}

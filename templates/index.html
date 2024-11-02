@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block title %}Message App{% endblock %}
+
+{% block content %}
+
+{% if session.registration_successful %}
+Registration successful!
+{% endif %}
+
+{% if session.username %}
+<div class="box">
+    <form action="/users" method="GET">
+        <label for="query">Find users:</label>
+        <input id="query" type="text" name="query">
+        <input id="query-button" type="submit" value="Search">
+    </form>
+</div>
+{% endif %}
+
+<div class="box">
+    <form action="/result" method="GET">
+        <label for="query">Find messages:</label>
+        <input id="query" type="text" name="query">
+        <input id="query-button" type="submit" value="Search">
+    </form>
+</div>
+
+<div class="message-list">
+    Message count: {{ count }}
+    {% for message in messages %}
+    <ul>
+        <li>{{ message.content }}</li>
+    </ul>
+    {% endfor %}
+</div>
+{% endblock %}
