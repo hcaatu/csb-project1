@@ -9,6 +9,12 @@
                 <br>
                 Sent by {{message.sent_by}} at {{message.created_at}}<br>
                 <br>
+                {% if session.admin %}
+                    <form id="delete-button" action="/delete_message/{{ message.id }}" method="POST">
+                        <input type="submit" value="Delete message">
+                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                    </form>
+                {% endif %}
         {% endfor %}
     {% else %}
         Query does not match any reviews.

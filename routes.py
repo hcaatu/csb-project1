@@ -1,5 +1,5 @@
 from flask import redirect, render_template, abort, request, session
-from werkzeug.security import check_password_hash
+#from werkzeug.security import check_password_hash
 from secrets import token_hex
 from app import app
 import visits
@@ -51,10 +51,12 @@ def login():
         session["invalid_user"] = True
         return redirect(request.referrer)
     else:
-        hash = user.password
-        if check_password_hash(hash, password):
+        # hash = user.password
+        # if check_password_hash(hash, password):
+        if password == user.password:
             session["user_id"] = user.id
             session["username"] = username
+            session["admin"] = user.admin
             session["invalid_user"] = False
             session["csrf_token"] = token_hex(16)
         else:
@@ -66,6 +68,7 @@ def login():
 def logout():
     del session["user_id"]
     del session["username"]
+    del session["admin"]
     del session["invalid_user"]
     del session["csrf_token"]
     return redirect("/")
@@ -130,14 +133,9 @@ def users():
         users = visits.get_users_by_query(query)
         return render_template("users.html", users=users)
     
-@app.route("/users/<int:id>", methods=["POST"])
-def friend_request(id):
-    check_user()
-    visits.add_friend_request(session["user_id"], id)
-    return redirect("/")
 
-@app.route("/accept_friend/<int:id>", methods=["POST"])
-def accept_friend(id):
+@app.route("/delete_user/<int:id>", methods=["POST"])
+def delete_user(id):
     check_user()
-    visits.accept_friend(id)
-    return redirect("/personal")
+    visits.delete_user(id)
+    return redirect(request.referrer)
