@@ -1,4 +1,6 @@
 from sqlalchemy.sql import text
+
+# Fix is commented out. 
 # from werkzeug.security import generate_password_hash
 from db import db
 
@@ -9,6 +11,7 @@ def get_messages():
     return msgs
 
 def register_new(username, password):
+    # We can fix flaw #1 by hahsing the password before storing it in the database.
     # password_hash = generate_password_hash(password)
     try:
         sql = "INSERT INTO users (username, password, admin) VALUES (:username, :password, FALSE)"
