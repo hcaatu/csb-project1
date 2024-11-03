@@ -7,15 +7,6 @@
 Registration successful!
 {% endif %}
 
-{% if session.admin %}
-<div class="box">
-    <form action="/users" method="GET">
-        <label for="query">Find users:</label>
-        <input id="query" type="text" name="query">
-        <input id="query-button" type="submit" value="Search">
-    </form>
-</div>
-{% endif %}
 
 <div class="box">
     <form action="/result" method="GET">
@@ -25,8 +16,11 @@ Registration successful!
     </form>
 </div>
 
+<h2>Message board</h2>
+
 <div class="message-list">
     Message count: {{ count }}
+    <br>
     {% for message in messages %}
     <ul>
         <li>{{ message.content }}</li>

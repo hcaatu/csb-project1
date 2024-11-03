@@ -15,6 +15,7 @@ def register_new(username, password):
     # password_hash = generate_password_hash(password)
     try:
         sql = "INSERT INTO users (username, password, admin) VALUES (:username, :password, FALSE)"
+        # Commented line stores the hashed password instead of the plaintext password.
         # db.session.execute(text(sql), {"username":username, "password":password_hash})
         db.session.execute(text(sql), {"username":username, "password":password})
         db.session.commit()

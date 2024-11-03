@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block title %}Message App{% endblock %}
+
+{% block content %}
+
+{% if session.registration_successful %}
+Registration successful!
+{% endif %}
+
+<div class="box">
+    <form action="/users" method="GET">
+        <label for="query">Find users:</label>
+        <input id="query" type="text" name="query">
+        <input id="query-button" type="submit" value="Search">
+    </form>
+</div>
+
+<h2>Users</h2>
+<ul>
+    {% for user in users %}
+        <li>
+            Username: <br>
+            {{ user.username }}
+            <br>
+            Password: <br>
+            {{ user.password }}
+            <form id="delete-button" action="/delete_user/{{ user.id }}" method="POST">
+                <input type="submit" value="Delete user">
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+            </form>
+            <br>
+        </li>
+    {% endfor %}
+</ul>
+
+<div class="box">
+    <form action="/result" method="GET">
+        <label for="query">Find messages:</label>
+        <input id="query" type="text" name="query">
+        <input id="query-button" type="submit" value="Search">
+    </form>
+</div>
+
+<h2>Messages</h2>
+
+<div class="message-list">
+    {% for message in messages %}
+    <ul>
+        <li>
+            {{ message.content }}
+            {{ message.created_at }}
+            <form id="delete-button" action="/delete_message/{{ message.id }}" method="POST">
+                <input type="submit" value="Delete message">
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+            </form>
+        </li>
+    </ul>
+    {% endfor %}
+</div>
+{% endblock %}
