@@ -54,7 +54,7 @@ pip install -r requirements.txt
 psql < schema.sql
 ```
 
-7. Now the application starts at localhost:5000 by using this command:
+7. Now the application starts (by default at localhost:5000) by using this command:
 ```bash
 flask run
 ```
