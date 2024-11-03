@@ -34,8 +34,11 @@ def create_message(content, sent_by):
     db.session.commit()
 
 def fetch_messages(query):
-    sql = "SELECT * FROM messages WHERE lower(content) LIKE lower(:query)"
-    result = db.session.execute(text(sql), {"query":"%"+query+"%"})
+    # Commented code is the fix for SQL injection flaw.
+    sql = "SELECT * FROM messages WHERE content LIKE '" + query + "'"
+    result = db.session.execute(text(sql))
+    # sql = "SELECT * FROM messages WHERE content LIKE :query"
+    # result = db.session.execute(text(sql), {"query":"%"+query+"%"})
     return result.fetchall()
 
 def fetch_messages_by_user(sent_by):
