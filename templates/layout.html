@@ -21,11 +21,9 @@
                         <li>{{ session.username  }} logged in</li>
                         <li><a href="/personal">My messages</a></li>
                         <li><a href="/new">Add message</a></li>
-                        <li>
-                            {% if session.admin %}
-                                <a href="/admin_page">Admin page</a>
-                            {% endif %}
-                        </li>
+                        {% if session.admin %}
+                        <li><a href="/admin_page">Admin page</a></li>
+                        {% endif %}
                         <li><a href="/logout">Log out</a></li>
                     </ul>
                 </nav>  
