@@ -1,8 +1,6 @@
 # Cyber Security Base Project 1
 
-*Note!*
-
-There was a typo in the Cryptographic Failures link. The correct one is https://github.com/hcaatu/csb-project1/blob/main/db_access.py#L20
+**Note!** There was a typo in the Cryptographic Failures link. The correct one is https://github.com/hcaatu/csb-project1/blob/main/db_access.py#L20
 
 This repository consists of a vulnerable messaging application with five different cyber security flaws. I opted to use Flask when creating the app, since I have much better knowledge over that than Django that was used in the course material. The app features user registration and login, adding messages and a separate admin control panel.
 
