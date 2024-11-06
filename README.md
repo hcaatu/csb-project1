@@ -1,6 +1,6 @@
 # Cyber Security Base Project 1
 
-## Note!
+*Note!*
 
 There was a typo in the Cryptographic Failures link. The correct one is https://github.com/hcaatu/csb-project1/blob/main/db_access.py#L20
 
