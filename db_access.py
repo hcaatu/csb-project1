@@ -48,9 +48,9 @@ def create_message(content, sent_by):
     db.session.commit()
 
 def fetch_messages(query):
-    # Commented code is the fix for SQL injection flaw.
     sql = "SELECT * FROM messages WHERE content LIKE '" + query + "'"
     result = db.session.execute(text(sql))
+    # Commented code is the fix for SQL injection flaw #5.
     # sql = "SELECT * FROM messages WHERE content LIKE :query"
     # result = db.session.execute(text(sql), {"query":"%"+query+"%"})
     return result.fetchall()

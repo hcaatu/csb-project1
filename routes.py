@@ -86,11 +86,13 @@ def new():
 
 @app.route("/admin_page")
 def admin():
+    """ This is a security check that fixes flaw #3
     try:
         if not session['admin']:
             return redirect("/")
     except KeyError:
         return redirect("/")
+        """
     clear_error_messages()
     messages = db_access.get_messages()
     users = db_access.get_users_by_query("")
