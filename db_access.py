@@ -1,6 +1,8 @@
+# Fix #2 requires regular expressions to validate the password
+# import re
 from sqlalchemy.sql import text
 
-# Fix is commented out. 
+# Fix #1 is commented out. 
 # from werkzeug.security import generate_password_hash
 from db import db
 
@@ -17,6 +19,18 @@ def register_new(username, password):
         sql = "INSERT INTO users (username, password, admin) VALUES (:username, :password, FALSE)"
         # Commented line stores the hashed password instead of the plaintext password.
         # db.session.execute(text(sql), {"username":username, "password":password_hash})
+
+        """ This comment section uses regular expressions to validate the correctly formatted password and fixes flaw #2
+        if len(password) < 8:
+           print("Password must contain at least 8 characters")
+        elif re.search('[0-9]',password) is None:
+            print("Password must contain at least one letter")
+        elif re.search('[A-Z]',password) is None:
+           print("Password must contain at least one capital letter")
+        else:
+            db.session.execute(text(sql), {"username":username, "password":password})
+            db.session.commit()
+            """
         db.session.execute(text(sql), {"username":username, "password":password})
         db.session.commit()
     except:

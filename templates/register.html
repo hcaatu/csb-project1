@@ -23,6 +23,12 @@
         <input type="password" name="password" required placeholder="Password"
         oninvalid="this.setCustomValidity('Please type the password here')"
         oninput="this.setCustomValidity('')">
+
+<!--    This comment sections includes the minlength validator in the HTML side to improve #2
+        <input type="password" name="password" required minlength="8" placeholder="Password"
+        oninvalid="this.setCustomValidity('Please type the password here')"
+        oninput="this.setCustomValidity('')">
+-->
     </div>
     <div>
         <label for="password_again">Password again:</label><br>

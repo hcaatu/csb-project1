@@ -1,5 +1,7 @@
 from flask import redirect, render_template, abort, request, session
-#from werkzeug.security import check_password_hash
+
+# We import the password hashing function to fix #1
+# from werkzeug.security import check_password_hash
 from secrets import token_hex
 from app import app
 import db_access
@@ -36,9 +38,13 @@ def register():
         if db_access.register_new(username, password):
             clear_error_messages()
             session["registration_successful"] = True
+            # Flaw #4 fix
+            # session["attempts"] = 0
             return redirect("/")
         elif not db_access.register_new(username, password):
             session["username_in_use"] = True
+            # Flaw #4 fix
+            # session["attempts"] += 1
             return redirect("/register")
 
 @app.route("/login", methods=["POST"])
@@ -51,6 +57,7 @@ def login():
         session["invalid_user"] = True
         return redirect(request.referrer)
     else:
+        # Flaw #1 fix
         # hash = user.password
         # if check_password_hash(hash, password):
         if password == user.password:
@@ -79,6 +86,11 @@ def new():
 
 @app.route("/admin_page")
 def admin():
+    try:
+        if not session['admin']:
+            return redirect("/")
+    except KeyError:
+        return redirect("/")
     clear_error_messages()
     messages = db_access.get_messages()
     users = db_access.get_users_by_query("")
@@ -100,7 +112,6 @@ def result():
 
 @app.route("/personal")
 def personal(id=None):
-    #check_user()
     print(session["username"])
     messages = db_access.fetch_messages_by_user(session["username"])
     print(messages)
