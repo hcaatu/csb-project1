@@ -38,21 +38,19 @@ def register():
         if db_access.register_new(username, password):
             clear_error_messages()
             session["registration_successful"] = True
-            # Flaw #4 fix
-            # session["attempts"] = 0
             return redirect("/")
         elif not db_access.register_new(username, password):
             session["username_in_use"] = True
-            # Flaw #4 fix
-            # session["attempts"] += 1
             return redirect("/register")
 
 @app.route("/login", methods=["POST"])
 def login():
+    # Blocks the user after 30 failed login attempts, flaw #4 fix
+    # if session["attempts"] >= 30:
+    #     return redirect(request.referrer)
     username = request.form["username"]
     password = request.form["password"]
     user = db_access.fetch_user(username)
-
     if not user:
         session["invalid_user"] = True
         return redirect(request.referrer)
@@ -65,9 +63,13 @@ def login():
             session["username"] = username
             session["admin"] = user.admin
             session["invalid_user"] = False
+            # Flaw #4 fix
+            # session["attempts"] = 0
             session["csrf_token"] = token_hex(16)
         else:
             session["invalid_user"] = True
+            # Flaw #4 fix
+            # session["attempts"] += 1
             return redirect(request.referrer)
     return redirect(request.referrer)
 
