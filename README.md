@@ -95,7 +95,7 @@ This is a major security flaw that permits unauthorized access to non-admin role
 
 This flaw can be fixed by multiple ways. A secure method is to implement an admin privilege check to the server. When requesting the page with a GET request, the server would check for admin privileges and if lacking, should the server respond with a 403 Forbidden status code. This way any unauthorized users can’t access the page even by tampering with the URL. I've implemented an easy fix that checks whether the user is an admin or not. If not, the user will be simply redirected to the home page:
 
-https://github.com/hcaatu/csb-project1/blob/main/routes.py#L91-97
+https://github.com/hcaatu/csb-project1/blob/main/routes.py#L91-L97
 
 In Flask, the variable “session” is used to store various information about the state of the application, such as whether the user is an administrator or not. In addition to making the admin page more secure, deleting user data, messages or credentials in this case, should enforce a double-check, such as re-typing the admin password or performing two-factor authentication on the user. Submitting the POST request of the data deletion must have client side checks on wheter the user is authorized to do so.
 
