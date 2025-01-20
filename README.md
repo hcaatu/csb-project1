@@ -88,14 +88,14 @@ This is better than just the HTML validator, since brute force attacks usually b
 
 
 ## Broken Access Control:
-https://github.com/hcaatu/csb-project1/blob/main/routes.py#L87
+https://github.com/hcaatu/csb-project1/blob/main/routes.py#L89
 https://github.com/hcaatu/csb-project1/blob/main/templates/admin.html
 
 This is a major security flaw that permits unauthorized access to non-admin roles viewing the page. I’ve implemented an admin control panel page for that only the developer or administrator should have access to. By failing to check if a user is A) logged in and B) has the privilege to view the administrator page, any common user can view the page. By modifying the URL in a predictable manner, as in specifying the route to /admin_page, any user has access to sensitive information and can destroy the data from the database. It is also a questionable design choice to display all user information on the admin page. Even with hashed passwords, there should not be a way to display passwords of all users since there exists the risk of the sensitive data leak.
 
 This flaw can be fixed by multiple ways. A secure method is to implement an admin privilege check to the server. When requesting the page with a GET request, the server would check for admin privileges and if lacking, should the server respond with a 403 Forbidden status code. This way any unauthorized users can’t access the page even by tampering with the URL. I've implemented an easy fix that checks whether the user is an admin or not. If not, the user will be simply redirected to the home page:
 
-https://github.com/hcaatu/csb-project1/blob/main/routes.py#L89
+https://github.com/hcaatu/csb-project1/blob/main/routes.py#L91-97
 
 In Flask, the variable “session” is used to store various information about the state of the application, such as whether the user is an administrator or not. In addition to making the admin page more secure, deleting user data, messages or credentials in this case, should enforce a double-check, such as re-typing the admin password or performing two-factor authentication on the user. Submitting the POST request of the data deletion must have client side checks on wheter the user is authorized to do so.
 
@@ -105,11 +105,11 @@ https://github.com/hcaatu/csb-project1/blob/main/templates/layout.html#L41
 
 Invalid logins are only logged to the user’s index page. On a failed login authentication, the “session” updates with invalid_user to true, which in turn displays an error message. However, invalid logins aren’t logged in the client at all. This prevents the ability to detect any suspicious or malicious activity. If this application was in production and the server was online, any attack attempts or breaches could not be detected by administrators. High-value transactions, in this context deleting user data should also be logged thoroughly. If a malicious user is able to destroy all data, it would go unnoticed.
 
-An external logger middleware is a consistent way to get enough server side information of the requests sent. We can implement our own logger in a separate module that takes in all requests and extracts information such as IP addresses and payloads. By default, Flask displays IP addresses of all requests. This default feature is enough to rule out any possible attackers from compromising data by blocking specific addresses. This process however should be automated, so that when a threshold of, for example, login attempts is surpassed, an IP address gets blocked. The fix is to keep track of unsuccessful login attemps, which I have done in 
+An external logger middleware is a consistent way to get enough server side information of the requests sent. We can implement our own logger in a separate module that takes in all requests and extracts information such as IP addresses and payloads. By default, Flask displays IP addresses of all requests. This default feature is enough to rule out any possible attackers from compromising data by blocking specific addresses. This process however should be automated, so that when a threshold of, for example, 30 login attempts is surpassed, an IP address gets blocked. The fix is to keep track of unsuccessful login attemps, which I have done in 
 
-https://github.com/hcaatu/csb-project1/blob/main/routes.py#L41-L47
+https://github.com/hcaatu/csb-project1/blob/main/routes.py#L48-L72
 
-This code increments one to the "attempts" counter whenever a wrong password is submitted and resets when a successful login is made. This information can be used to limit the login attempts with a proper error message, for example, to 10 attempts. This in turn prevents brute force password guessing.
+This code increments one to the "attempts" counter whenever a wrong password is submitted and resets when a successful login is made. This information can be used to limit the login attempts with a proper error message, for example, to 30 attempts. This in turn prevents brute force password guessing.
 
 ## Injection:
 https://github.com/hcaatu/csb-project1/blob/main/db_access.py#L51
